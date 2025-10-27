@@ -3,220 +3,259 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>The funion</title>
+  <title>The Funion</title>
   <style>
-    *,
-*::after,
-*::before {
-  box-sizing: border-box;
-}
+        *,
+    *::after,
+    *::before {
+      box-sizing: border-box;
+    }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
+    html {
+      position: relative;
+      min-height: 100%;
+    }
 
-body {
-  margin: 30px; /* bottom = newsletter height */
-  font-family: Lato, sans-serif;
-}
+    body {
+      margin: 30px; /* bottom = newsletter height */
+      font-family: Lato, sans-serif;
+    }
 
-a{
-  color: #006b3a;
-}
-main a{
-  outline: none;
-}
-h2 {
-  margin-top: 0;
-}
+    a{
+      color: #006b3a;
+    }
 
-article h3 {
-  margin-top: 0;
-  font-size: 1.5em;
-  -webkit-margin-after: 0.83em;
-}
+    /* --------------------------------------------
+       ACCESSIBILITY: Visible, consistent focus ring
+       Replaces previous "main a { outline: none; }"
+       -------------------------------------------- */
 
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-}
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    [role="button"]:focus-visible {
+      outline: 3px solid #006b3a;
+      outline-offset: 3px;
+    }   
+
+    /* Make sure focused elements scrolled into view aren't obscured when UI changes */
+    :focus { scroll-margin-top: 6rem; }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    article h3 {
+      margin-top: 0;
+      font-size: 1.5em;
+      -webkit-margin-after: 0.83em;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
 
 
-header {
-  margin-bottom: 48px;
-  box-shadow: 0 0 8px #bbb;
-  border-bottom: 1px solid #aaa;
-}
+    header {
+      margin-bottom: 48px;
+      box-shadow: 0 0 8px #bbb;
+      border-bottom: 1px solid #aaa;
+    }
 
-.logo {
-  text-align: center;
-  font-size: 32px;
-  margin: 0;
-  padding: 16px 0;
-  border-bottom: 1px solid #ddd;
-}
+    .logo {
+      text-align: center;
+      font-size: 32px;
+      margin: 0;
+      padding: 16px 0;
+      border-bottom: 1px solid #ddd;
+    }
 
-.offscreen {
-  position: absolute;
-  left: -10000px;
-  top: -10000px;
-}
+    .offscreen {
+      position: absolute;
+      left: -10000px;
+      top: -10000px;
+    }
 
-.menu {
-  padding: 16px 48px;
-}
+    .menu {
+      padding: 16px 48px;
+    }
 
-.menu a {
-  color: #000;
-  text-decoration: none;
-  font-size: 18px;
-  margin-right: 18px;
-}
+    .menu a {
+      color: #000;
+      text-decoration: none;
+      font-size: 18px;
+      margin-right: 18px;
+    }
 
-.menu a:last-child {
-  margin-right: 0;
-}
+    .menu a:last-child {
+      margin-right: 0;
+    }
 
-.menu .btn-search img {
-  vertical-align: top;
-  margin-right: 8px;
-  width: 22px;
-  height: 22px;
-}
+    .menu .btn-search img {
+      vertical-align: top;
+      margin-right: 8px;
+      width: 22px;
+      height: 22px;
+    }
 
-article p {
-  line-height: 1.4;
-}
+    article p {
+      line-height: 1.4;
+    }
 
-.main-story {
-  clear: both;
-  overflow: hidden;
-  margin-bottom: 16px;
-  padding-bottom: 16px;
-}
+    .main-story {
+      clear: both;
+      overflow: hidden;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+    }
 
-.main-story img {
-  width: 50%;
-}
+    .main-story img {
+      width: 50%;
+    }
 
-.main-story .info {
-  margin-right: 50%;
-  padding-right: 16px;
-}
+    .main-story .info {
+      margin-right: 50%;
+      padding-right: 16px;
+    }
 
-.tier-header {
-  border-top: 1px solid #aaa;
-  margin-bottom: 15px;
-}
+    .tier-header {
+      border-top: 1px solid #aaa;
+      margin-bottom: 15px;
+    }
 
-.tier-header h2 {
-  font-size: 17px;
-  font-weight: 400;
-  text-transform: uppercase;
-  padding: 5px 15px;
-  display: inline-block;
-  margin: 0;
-  color: #fff;
-  background: #006b3a;
-}
+    .tier-header h2 {
+      font-size: 17px;
+      font-weight: 400;
+      text-transform: uppercase;
+      padding: 5px 15px;
+      display: inline-block;
+      margin: 0;
+      color: #fff;
+      background: #006b3a;
+    }
 
-.side-by-side .column {
-  display: inline-block;
-  vertical-align: top;
-}
+    .side-by-side .column {
+      display: inline-block;
+      vertical-align: top;
+    }
 
-.side-by-side article img {
-  max-width: 100%;
-}
+    .side-by-side article img {
+      max-width: 100%;
+    }
 
-.side-by-side .column:first-child {
-  width: 70%;
-  padding-right: 16px;
-  border-right: 1px solid #aaa;
-}
+    .side-by-side .column:first-child {
+      width: 70%;
+      padding-right: 16px;
+      border-right: 1px solid #aaa;
+    }
 
-.side-by-side .column:last-child {
-  padding-left: 16px;
-  width: 29%; /* Account for whitespace gap from display: inline-block */
-}
+    .side-by-side .column:last-child {
+      padding-left: 16px;
+      width: 29%; /* Account for whitespace gap from display: inline-block */
+    }
 
-.side-by-side .column:last-child .headline {
-  font-size: 18px;
-}
+    .side-by-side .column:last-child .headline {
+      font-size: 18px;
+    }
 
-.three-col {
-  margin-bottom: 100px;
-}
+    .three-col {
+      margin-bottom: 100px;
+    }
 
-.three-col h2,
-.three-col h3 {
-  margin-top: 0;
-  font-size: 16px;
-}
+    .three-col h2,
+    .three-col h3 {
+      margin-top: 0;
+      font-size: 16px;
+    }
 
-.three-col .columns {
-  display: flex;
-}
+    .three-col .columns {
+      display: flex;
+    }
 
-.three-col .columns article {
-  flex: 1;
-  margin-right: 18px;
-}
+    .three-col .columns article {
+      flex: 1;
+      margin-right: 18px;
+    }
 
-.three-col img {
-  width: 100%;
-}
+    .three-col img {
+      width: 100%;
+    }
 
-.three-col .columns article:last-child {
-  margin-right: 0;
-}
+    .three-col .columns article:last-child {
+      margin-right: 0;
+    }
 
-.newsletter {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 60px;
-  width: 100%;
-  background: #000;
-  color: #fff;
-  border-top: 1px solid #aaa;
-}
+    /* Newsletter now behaves like a footer section, not absolutely positioned.
+       This keeps focus order aligned to visual order. */
 
-.newsletter h3 {
-  display: inline-block;
-  margin-right: 16px;
-}
+    .newsletter {
+      background: #000;
+      color: #fff;
+      border-top: 1px solid #aaa;
+      padding: 12px 0;
+    }
 
-/* Helpers */
-.pull-right {
-  float: right;
-}
+    .newsletter h3 {
+      display: inline-block;
+      margin-right: 16px;
+    }
+
+    /* Helpers */
+    .pull-right {
+      float: right;
+    }
+
+    /* Skip link so keyboard users can jump to main content (WCAG 2.4.1) */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+    }
+
+    .skip-link:focus {
+      left: 1rem;
+      top: 1rem;
+      z-index: 1000;
+      background: #fff;
+      color: #000;
+      padding: .5rem 1rem;
+      border: 2px solid currentColor;
+    }
 
   </style>
 </head>
 
 <body>
+  <!-- ACCESSIBILITY: Bypass blocks for keyboard users (WCAG 2.4.1) -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+  
   <header>
-
     <div class="container">
       <h1 class="logo">The Funion</h1>
       
-      <!-- Maybe this could be improved with aria-activedescendant later? -->
-      <nav class="menu">
+      <!-- ACCESSIBILITY: aria-label to describe this landmark -->
+      <nav class="menu" aria-label="Primary">
         <a href="#">Home</a>
         <a href="#">Politics</a>
+
         <!-- FIX: removed tabindex="-1" so the item is reachable by keyboard-->
         <a href="#">Business</a>
         <a href="#">Entertainment</a>
         <a href="#">Sports</a>
+
+        <!-- Keeping as a link to a (hypothetical) search page.
+             If this should open a client-side search UI, make it a <button> instead. -->
         <a href="#" class="btn-search pull-right"><img src="https://raw.githubusercontent.com/udacity/ud891/2de2a0688c68809a3b453db3a24b1a59e8401459/lesson2-focus/02-dom-order/images/search.svg" alt="Search" />Search</a> 
 
       </nav>
     </div>
   </header>
   
-  <main class="container">
+  <!-- ACCESSIBILITY: main landmark has an ID for skip link target -->
+  <main id="main" class="container">
     <h2 class="offscreen">Top story</h2>
     <article class="main-story">
       <img class="pull-right" src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/cat.jpg?raw=true" alt="A cat staring menacingly off into space">
