@@ -206,7 +206,8 @@ article p {
       <nav class="menu">
         <a href="#">Home</a>
         <a href="#">Politics</a>
-        <a href="#" tabindex="-1">Business</a>
+        <!-- FIX: removed tabindex="-1" so the item is reachable by keyboard-->
+        <a href="#">Business</a>
         <a href="#">Entertainment</a>
         <a href="#">Sports</a>
         <a href="#" class="btn-search pull-right"><img src="https://raw.githubusercontent.com/udacity/ud891/2de2a0688c68809a3b453db3a24b1a59e8401459/lesson2-focus/02-dom-order/images/search.svg" alt="Search" />Search</a> 
@@ -214,14 +215,7 @@ article p {
       </nav>
     </div>
   </header>
-  <div class="newsletter">
-    <div class="container">
-      <h3>Like the Funion? Consider joining our newsletter!</h3>
-      <input type="text">
-      <button type="button" onfocus="getFocus()">Sign up</button></div>
-      
-    </div>
-  </div>
+  
   <main class="container">
     <h2 class="offscreen">Top story</h2>
     <article class="main-story">
@@ -239,11 +233,13 @@ article p {
     <div class="side-by-side">
       <div class="column">
         <div class="tier-header">
-          <h2 tabindex="0">In the news</h2>
+          <!-- FIX: removed tabindex="0" from non-interactive heading -->
+          <h2>In the news</h2>
         </div>
         <article>
           <h3 class="headline">Bee wonders if maybe everyone else is a drone and he's the only one who has it "figured out."</h3>
-          <p><a href="#" tabindex="1"><b>Read More</b></a></p>
+          <!-- FIX: removed positive tabindex that breaks logical order -->
+          <p><a href="#"><b>Read More</b></a></p>
           <img src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/bee.jpg?raw=true" alt="A bee on top of a flower" />
         </article>
       </div>
@@ -274,7 +270,9 @@ article p {
         <article>
           <img src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/coffee.jpg?raw=true" alt="A cup of coffee on a table" />
           <div class="info">
+            <!-- FIX: closed missing </div> for .info to correct DOM (prevents odd focus/reading order) -->
             <h3 class="headline">San Franciscans are losing their minds over this third wave, artisanal, fair trade, handcrafted, locavore coffee. <a href="#">Read More</a></h3>
+          </div>
         </article>
         <article>
           <img src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/football.jpg?raw=true" alt="A football player hands the ball off to another player" />
@@ -290,11 +288,29 @@ article p {
   <footer>
   </footer>
   -->
+  <!-- FIX: Newsletter moved to the END so focus order matches visual order.
+       Also removed onfocus handler that opened a window, which was a change of context on focus.
+       Added a proper label for the input, and type="email" for semantics. -->
+  <div class="newsletter" role="region" aria-label="Newsletter signup">
+    <div class="container">
+      <h3>Like the Funion? Consider joining our newsletter!</h3>
+      <!-- Accessible label for the input (visually hidden) -->
+      <label class="offscreen" for="nl-email">Email address</label>
+      <input id="nl-email" type="email" name="email" placeholder="you@example.com"/>
+      <button type="button" id="nl-signup">Sign up</button>
+      
+    </div>
+  </div>
   
   <script>
-    function getFocus() {
-      window.open('https://aidaform.com/templates/thank-you-page-with-redirects.html','mywindow').focus()
-    }
+    // FIX: Activation is now on click/Enter/Space via native <button>.
+    document.getElementById('nl-signup')?.addEventListener('click', () => {
+      const w = window.open(
+        'https://aidaform.com/templates/thank-you-page-with-redirects.html',
+        'mywindow'
+      );
+      w?.focus();
+    });
     </script>
 </body>
 
