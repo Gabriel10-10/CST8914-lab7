@@ -3,72 +3,123 @@
     <head>
         <title>Form validation with messages on top: Code example - Accessibility Developer Guide example</title>
         <meta charset="utf-8">
-        <style>.control, fieldset {
-      margin: 6px 0;
-    }
-    
-    label {
-      display: inline-block;
-      width: 120px;
-      vertical-align: top;
-    }
-    
-    input + label {
-      width: auto;
-    }
-    
-    .error, .required {
-      color: red;
-    }
-    
-    fieldset ul {
-      margin: 0;
-    }</style>
+        <style>
+          .control, fieldset {
+            margin: 6px 0;
+          }
+          
+          label {
+            display: inline-block;
+            width: 120px;
+            vertical-align: top;
+          }
+          
+          input + label {
+            width: auto;
+          }
+          /* Keep labels after inputs for radios/checkboxes narrower */
+          .required {
+            color: red;
+          }
+          
+          fieldset ul {
+            margin: 0;
+          }
+
+          /* Visually-hidden helper for screen-reader-only instructions */
+          .sr-only {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0 0 0 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+          }
+
+        </style>
     </head>
     <body>
-        <h1>Feedback form</h1>
-    <form>
+      <h1>Feedback form</h1>
+      <form>
         <div class="control">
-          <label>Full name <span class="required">*</span></label><input id="name" name="name" type="text" />
+          <!--LABELING: Associate label to control via for/id -->
+          <!--REQUIRED IN TEXT: Add visible (required) next to the label text -->
+          <label for="name">Full name <span class="required">*</span> (required)</label><input id="name" name="name" type="text" />
+          <span id="name_inst" class="sr-only">Enter your first and last name. This field is required.</span>
+          <input id="name" name="name" type="text" required aria-describedby="name_inst" />
         </div>
+
         <div class="control">
-          <label>Biography</label><textarea id="biography" name="biography" type="text"></textarea>
-          <span>Include examples on your skills in JavaScript.</span>
+          <!--LABELING: Proper for/id -->
+          <label for="biography">Biography</label>
+          <!--INLINE SR/VISIBLE INSTRUCTIONS: Visible helper text, referenced with aria-describedby -->
+          <span id="biography_help">Include examples on your skills in JavaScript.</span>
+          <!-- Remove invalid type attribute from textarea -->
+          <textarea id="biography" name="biography" aria-describedby="biography_help"></textarea>
         </div>
         
-          <div>Gender</div>
+        <!--GROUPING: Use fieldset/legend to group related radio controls (Gender) -->
+        <!--REQUIRED IN TEXT: Indicate (required) in the legend text -->
+        <!--INLINE SR INSTRUCTIONS: Provide SR-only guidance and link it via aria-describedby on each radio -->
+        <fieldset class="control" aria-describedby="gender_inst">
+          <legend>Gender <span class="required" aria-hidden="true">*</span> (required)</legend>
+          <p id="gender_inst" class="sr-only">Use arrow keys to move between options. One selection is required.</p>  
+          
           <div class="control">
-            <input id="gender_male" name="gender" type="radio" value="male" /><label>Male</label>
+            <!--add for= and required on one radio to mark the group required -->
+            <input id="gender_male" name="gender" type="radio" value="male" required aria-describedby="gender_inst"/>
+            <label for="gender_male">Male</label>
           </div>
+
           <div class="control">
-            <input id="gender_female" name="gender" type="radio" value="female" /><label>Female</label>
+            <input id="gender_female" name="gender" type="radio" value="female" aria-describedby="gender_inst"/>
+            <label for="gender_female">Female</label>
           </div>
+        </fieldset>
         
         <div class="control">
-          <input id="accept_agbs" name="accept_agbs" type="checkbox" value="1" /><label>I accept the terms and conditions</label>
+          <!--LABELING: Tie label and checkbox -->
+          <!--REQUIRED IN TEXT: Add (required) visibly -->
+          <!--INLINE SR INSTRUCTIONS: Add SR-only text stating it is required to proceed; hook via aria-describedby -->
+          <!--Improve the "Accept terms of condition”-->
+          <input id="accept_agbs" name="accept_agbs" type="checkbox" value="1" required aria-describedby="terms_inst"/>
+          <label for="accept_agbs">I accept the terms and conditions <span class="required" aria-hidden="true">*</span> (required)</label>
+          <span id="terms_inst" class="sr-only">You must accept the terms and conditions to submit this form.</span>
         </div>
+
         <div class="control">
-          <input name="validate" type="hidden" value="1" /><input type="submit" value="Register" />
+          <input name="validate" type="hidden" value="1" />
+          <input type="submit" value="Register" />
         </div>
       </form>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+      <script>"use strict";
       
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-          <script>"use strict";
-      
-      ;
       (function () {
-        var validateInput;
       
         $.urlParam = function (name) {
           var results;
-          results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
-      
+          results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);  
           if (results === null) {
             return null;
-          } else {
-            return decodeURI(results[1]) || null;
           }
+          return decodeURI(results[1]) || null;
         };
+
+        function ensureSummary() {
+          let $fs = $('fieldset.errors');
+          if (!$fs.length) {
+            $('form').prepend(
+              '<fieldset class="errors" role="alert" aria-live="polite" tabindex="-1"><legend>Errors</legend><ul></ul></fieldset>'
+            );
+            $fs = $('fieldset.errors');
+          }
+          return $fs.find('ul');
+        }
       
         validateInput = function validateInput(input, message) {
           var $elementToDescribe, $error, $errorContainer, $fieldset, $input, $referencedElement, value;
@@ -130,7 +181,8 @@
             }
           }
         });
-      }).call(void 0);</script>
+      }).call(void 0);
+      </script>
                 
         </body>
       </html>
