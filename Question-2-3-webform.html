@@ -47,7 +47,7 @@
         <div class="control">
           <!--LABELING: Associate label to control via for/id -->
           <!--REQUIRED IN TEXT: Add visible (required) next to the label text -->
-          <label for="name">Full name <span class="required">*</span> (required)</label><input id="name" name="name" type="text" />
+          <label for="name">Full name <span class="required">*</span> (required)</label>
           <span id="name_inst" class="sr-only">Enter your first and last name. This field is required.</span>
           <input id="name" name="name" type="text" required aria-describedby="name_inst" />
         </div>
@@ -75,7 +75,7 @@
           </div>
 
           <div class="control">
-            <input id="gender_female" name="gender" type="radio" value="female" required aria-describedby="gender_inst"/>
+            <input id="gender_female" name="gender" type="radio" value="female" aria-describedby="gender_inst"/>
             <label for="gender_female">Female</label>
           </div>
         </fieldset>
