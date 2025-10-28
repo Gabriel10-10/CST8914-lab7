@@ -47,7 +47,7 @@
         <div class="control">
           <!--LABELING: Associate label to control via for/id -->
           <!--REQUIRED IN TEXT: Add visible (required) next to the label text -->
-          <label for="name">Full name <span class="required">*</span> (required)</label>
+          <label for="name">Full name <span class="required">*</span> (required)</label><input id="name" name="name" type="text" />
           <span id="name_inst" class="sr-only">Enter your first and last name. This field is required.</span>
           <input id="name" name="name" type="text" required aria-describedby="name_inst" />
         </div>
@@ -55,10 +55,11 @@
         <div class="control">
           <!--LABELING: Proper for/id -->
           <label for="biography">Biography</label>
-          <!--INLINE SR/VISIBLE INSTRUCTIONS: Visible helper text, referenced with aria-describedby -->
-          <span id="biography_help">Include examples on your skills in JavaScript.</span>
+          
           <!-- Remove invalid type attribute from textarea -->
           <textarea id="biography" name="biography" aria-describedby="biography_help"></textarea>
+          <!--INLINE SR/VISIBLE INSTRUCTIONS: Visible helper text, referenced with aria-describedby -->
+          <span id="biography_help">Include examples on your skills in JavaScript.</span>
         </div>
         
         <!--GROUPING: Use fieldset/legend to group related radio controls (Gender) -->
